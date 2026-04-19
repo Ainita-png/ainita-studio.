@@ -6,54 +6,52 @@
     <title>AiNiTA STUDIO</title>
     <style>
         body { background: #000; color: #0f0; font-family: monospace; text-align: center; }
-        .box { border: 2px solid #0f0; padding: 20px; margin: 10px; border-radius: 10px; }
-        input, button { width: 90%; padding: 12px; margin: 5px; border: 1px solid #0f0; background: #111; color: #0f0; }
-        button { background: #0f0; color: #000; font-weight: bold; }
-        #status { color: #ff0; margin: 10px; }
+        .box { border: 2px solid #0f0; padding: 20px; margin: 10px; border-radius: 10px; box-shadow: 0 0 10px #0f0; }
+        input, button { width: 90%; padding: 12px; margin: 5px; border: 1px solid #0f0; background: #111; color: #0f0; font-weight: bold; }
+        button { background: #0f0; color: #000; cursor: pointer; text-transform: uppercase; }
+        #s { color: #ff0; margin: 10px; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="box">
         <h3>AiNiTA STUDIO</h3>
-        <input type="password" id="k" placeholder="Token hf_...">
-        <input type="text" id="p" placeholder="Stil (npr. dark phonk)">
+        <input type="password" id="k" placeholder="TOKEN (hf_...)">
+        <input type="text" id="p" placeholder="OPIS (npr. balkan trap)">
         <button onclick="go()">GENERISI</button>
-        <div id="status">Spreman.</div>
-        <audio id="a" controls style="width:100%; margin-top:10px;"></audio>
+        <div id="s">STATUS: Spreman.</div>
+        <audio id="a" controls style="width:100%; margin-top:15px;"></audio>
     </div>
 
-    <script>
-        async function go() {
-            const st = document.getElementById('status');
+    <script type="module">
+        import { HfInference } from "https://cdn.jsdelivr.net/npm/@huggingface/inference@2.6.4/+esm";
+
+        window.go = async function() {
+            const st = document.getElementById('s');
             const key = document.getElementById('k').value.trim();
             const pr = document.getElementById('p').value;
             const au = document.getElementById('a');
 
-            if(!key) { st.innerText = "Fali Token!"; return; }
-            st.innerText = "Povezivanje...";
+            if(!key) { st.innerText = "STATUS: Fali Token!"; return; }
+            st.innerText = "STATUS: Povezivanje preko mosta...";
 
             try {
-                const r = await fetch("https://api-inference.huggingface.co/models/facebook/musicgen-small", {
-                    method: "POST",
-                    headers: { "Authorization": "Bearer " + key },
-                    body: JSON.stringify({ inputs: pr })
+                const hf = new HfInference(key);
+                const blob = await hf.textToAudio({
+                    model: "facebook/musicgen-small",
+                    inputs: pr,
                 });
 
-                if (r.status === 503) {
-                    st.innerText = "Model se budi... Klikni opet za 20s.";
-                    return;
-                }
-
-                if (!r.ok) throw new Error("Greska: " + r.status);
-
-                const b = await r.blob();
-                au.src = URL.createObjectURL(b);
-                st.innerText = "GENERISANO!";
+                au.src = URL.createObjectURL(blob);
+                st.innerText = "STATUS: GENERISANO! 6000 MILJA!";
                 au.play();
             } catch (e) {
-                st.innerText = "GRESKA: " + e.message;
+                if (e.message.includes("503")) {
+                    st.innerText = "STATUS: Server se budi... sacekaj 20s i klikni opet.";
+                } else {
+                    st.innerText = "STATUS: " + e.message;
+                }
             }
-        }
+        };
     </script>
 </body>
 </html>
