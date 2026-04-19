@@ -1,57 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="sr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AiNiTA STUDIO</title>
     <style>
-        body { background: #000; color: #0f0; font-family: monospace; text-align: center; }
-        .box { border: 2px solid #0f0; padding: 20px; margin: 10px; border-radius: 10px; box-shadow: 0 0 10px #0f0; }
-        input, button { width: 90%; padding: 12px; margin: 5px; border: 1px solid #0f0; background: #111; color: #0f0; font-weight: bold; }
-        button { background: #0f0; color: #000; cursor: pointer; text-transform: uppercase; }
-        #s { color: #ff0; margin: 10px; font-size: 12px; }
+        body { background: #000; color: #0f0; font-family: monospace; text-align: center; padding: 20px; }
+        .box { border: 2px solid #0f0; padding: 20px; border-radius: 10px; max-width: 350px; margin: auto; }
+        input, button { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #0f0; background: #111; color: #0f0; border-radius: 5px; }
+        button { background: #0f0; color: #000; font-weight: bold; cursor: pointer; }
+        #s { color: #ff0; margin-top: 10px; font-size: 14px; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h3>AiNiTA STUDIO</h3>
-        <input type="password" id="k" placeholder="TOKEN (hf_...)">
-        <input type="text" id="p" placeholder="OPIS (npr. balkan trap)">
-        <button onclick="go()">GENERISI</button>
-        <div id="s">STATUS: Spreman.</div>
-        <audio id="a" controls style="width:100%; margin-top:15px;"></audio>
-    </div>
 
-    <script type="module">
-        import { HfInference } from "https://cdn.jsdelivr.net/npm/@huggingface/inference@2.6.4/+esm";
+<div class="box">
+    <h2>AiNiTA STUDIO</h2>
+    <input type="password" id="k" placeholder="Token (hf_...)">
+    <input type="text" id="p" placeholder="Stil (npr. dark trap)">
+    <button onclick="radi()">GENERISI MUZIKU</button>
+    <div id="s">Sistem spreman.</div>
+    <audio id="a" controls style="width:100%; margin-top:20px;"></audio>
+</div>
 
-        window.go = async function() {
-            const st = document.getElementById('s');
-            const key = document.getElementById('k').value.trim();
-            const pr = document.getElementById('p').value;
-            const au = document.getElementById('a');
+<script>
+    async function radi() {
+        const st = document.getElementById('s');
+        const token = document.getElementById('k').value.trim();
+        const opis = document.getElementById('p').value;
+        const plejer = document.getElementById('a');
 
-            if(!key) { st.innerText = "STATUS: Fali Token!"; return; }
-            st.innerText = "STATUS: Povezivanje preko mosta...";
+        if (!token) { st.innerText = "Fali Token!"; return; }
+        st.innerText = "Povezivanje sa serverom...";
 
-            try {
-                const hf = new HfInference(key);
-                const blob = await hf.textToAudio({
-                    model: "facebook/musicgen-small",
-                    inputs: pr,
-                });
-
-                au.src = URL.createObjectURL(blob);
-                st.innerText = "STATUS: GENERISANO! 6000 MILJA!";
-                au.play();
-            } catch (e) {
-                if (e.message.includes("503")) {
-                    st.innerText = "STATUS: Server se budi... sacekaj 20s i klikni opet.";
-                } else {
-                    st.innerText = "STATUS: " + e.message;
+        try {
+            const res = await fetch(
+                "https://api-inference.huggingface.co/models/facebook/musicgen-small",
+                {
+                    headers: { "Authorization": "Bearer " + token },
+                    method: "POST",
+                    body: JSON.stringify({ inputs: opis }),
                 }
+            );
+
+            if (res.status === 503) {
+                st.innerText = "Model se pali (503)... Sacekaj 20s pa klikni opet.";
+                return;
             }
-        };
-    </script>
+
+            if (!res.ok) {
+                const provera = await res.text();
+                st.innerText = "Greska servera: " + res.status;
+                return;
+            }
+
+            const data = await res.blob();
+            plejer.src = URL.createObjectURL(data);
+            st.innerText = "USPEH! 6000 MILJA!";
+            plejer.play();
+
+        } catch (greska) {
+            st.innerText = "LOKALNA BLOKADA: " + greska.message;
+            console.error(greska);
+        }
+    }
+</script>
+
 </body>
 </html>
