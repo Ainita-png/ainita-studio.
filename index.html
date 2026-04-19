@@ -6,10 +6,10 @@
     <title>AiNiTA STUDIO</title>
     <style>
         body { background: #000; color: #0f0; font-family: monospace; text-align: center; padding: 20px; }
-        .box { border: 2px solid #0f0; padding: 25px; border-radius: 15px; max-width: 400px; margin: auto; box-shadow: 0 0 20px #0f0; }
+        .box { border: 2px solid #0f0; padding: 20px; border-radius: 15px; max-width: 400px; margin: auto; box-shadow: 0 0 20px #0f0; }
         .btn { display: block; width: 100%; padding: 20px; margin-top: 15px; background: #0f0; color: #000; text-decoration: none; font-weight: bold; border-radius: 10px; font-size: 16px; text-transform: uppercase; border: none; }
-        .panic { background: #ff0; color: #000; animation: flash 1s infinite; }
-        @keyframes flash { 0% {opacity: 1;} 50% {opacity: 0.5;} 100% {opacity: 1;} }
+        .status { color: #f00; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
+        h1 { letter-spacing: 5px; }
     </style>
 </head>
 <body>
@@ -19,11 +19,13 @@
     <p>SISTEM: 6000 MILJA</p>
     <hr style="border: 1px solid #0f0; margin: 20px 0;">
     
-    <p style="color: #f00;">HUGGINGFACE SERVERI SU PALI!</p>
-    
-    <a href="https://suno.com/create" class="btn panic">POKRENI REZERVNI GENERATOR</a>
+    <div class="status">HuggingFace Server: OFFLINE</div>
 
-    <p style="font-size: 10px; margin-top: 30px; color: #444;">Uloguj se i nalepi: Aggressive Serbian Trap, 150 BPM, Dark Phonk.</p>
+    <a href="https://suno.com" target="_blank" class="btn">POKRENI SUNO (TRAP MAŠINA)</a>
+    
+    <a href="https://udio.com" target="_blank" class="btn" style="background: #0ff;">POKRENI UDIO (STUDIO KVALITET)</a>
+
+    <p style="font-size: 10px; margin-top: 30px; color: #444;">Arhitekta: Sistem je prebačen na stabilne servere.</p>
 </div>
 
 </body>
