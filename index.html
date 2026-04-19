@@ -7,30 +7,23 @@
     <style>
         body { background: #000; color: #0f0; font-family: monospace; text-align: center; padding: 20px; }
         .box { border: 2px solid #0f0; padding: 25px; border-radius: 15px; max-width: 400px; margin: auto; box-shadow: 0 0 20px #0f0; }
-        .btn { display: block; width: 100%; padding: 18px; margin-top: 15px; background: #0f0; color: #000; text-decoration: none; font-weight: bold; border-radius: 10px; font-size: 15px; text-transform: uppercase; border: none; cursor: pointer; }
-        .btn-red { background: #f00; color: #fff; }
-        .btn-blue { background: #00f; color: #fff; }
-        h1 { letter-spacing: 5px; margin-bottom: 5px; }
-        p { font-size: 12px; margin-bottom: 20px; }
+        .btn { display: block; width: 100%; padding: 20px; margin-top: 15px; background: #0f0; color: #000; text-decoration: none; font-weight: bold; border-radius: 10px; font-size: 16px; text-transform: uppercase; border: none; }
+        .panic { background: #ff0; color: #000; animation: flash 1s infinite; }
+        @keyframes flash { 0% {opacity: 1;} 50% {opacity: 0.5;} 100% {opacity: 1;} }
     </style>
 </head>
 <body>
 
 <div class="box">
     <h1>AiNiTA</h1>
-    <p>SISTEM: 6000 MILJA ISPRED SVIH</p>
-    <hr style="border: 1px solid #0f0;">
+    <p>SISTEM: 6000 MILJA</p>
+    <hr style="border: 1px solid #0f0; margin: 20px 0;">
     
-    <p style="color: #ff0;">SERVERI SU PREOPTEREĆENI. PROBAJ REDOM:</p>
-
-    <a href="https://huggingface.co/spaces/Mubert/Text-to-Music" class="btn">POKRENI MUBERT AI</a>
+    <p style="color: #f00;">HUGGINGFACE SERVERI SU PALI!</p>
     
+    <a href="https://suno.com/create" class="btn panic">POKRENI REZERVNI GENERATOR</a>
 
-    <a href="https://huggingface.co/spaces/Skylion/MusicGen" class="btn btn-blue">2. REZERVNI TERMINAL</a>
-
-    <a href="https://aitestkitchen.withgoogle.com/tools/music-fx" class="btn btn-red">3. GOOGLE MUSIC FX</a>
-
-    <p style="margin-top: 25px; font-size: 10px; color: #555;">Ako svi izbacuju grešku, Hugging Face ima globalni pad sistema. Sačekaj 30 min.</p>
+    <p style="font-size: 10px; margin-top: 30px; color: #444;">Uloguj se i nalepi: Aggressive Serbian Trap, 150 BPM, Dark Phonk.</p>
 </div>
 
 </body>
