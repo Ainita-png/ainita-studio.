@@ -41,12 +41,13 @@
 
         status.innerText = "Slanje komande na server... Meljem zvuk...";
         
-        try {
-                        const response = await fetch(
-               "https://api-inference.huggingface.co/models/facebook/musicgen-medium", ,
+                try {
+            status.innerText = "Slanje komande... Može potrajati do 60s...";
+            const response = await fetch(
+                "https://api-inference.huggingface.co/models/facebook/musicgen-small",
                 {
                     headers: { 
-                        "Authorization": `Bearer ${key}`,
+                        "Authorization": `Bearer ${key.trim()}`,
                         "Content-Type": "application/json"
                     },
                     method: "POST",
@@ -54,6 +55,22 @@
                         inputs: `150 BPM, Aggressive Serbian Trap, Dark Phonk, ${prompt}` 
                     }),
                 }
+            );
+
+            if (response.status === 503) {
+                status.innerText = "Model se učitava... Sačekaj 20s pa klikni opet.";
+                return;
+            }
+
+            if (!response.ok) throw new Error("Greška: " + response.status);
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            player.src = url;
+            status.innerText = "GENERISANO! 6000 milja ispred svih.";
+            player.play();
+        } 
+                    
             );
             
 
