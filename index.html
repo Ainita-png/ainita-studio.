@@ -3,30 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AiNiTA STUDIO</title>
+    <title>AiNiTA STUDIO - MOZAK</title>
     <style>
         body { background: #000; color: #0f0; font-family: monospace; text-align: center; padding: 20px; }
-        .box { border: 2px solid #0f0; padding: 20px; border-radius: 15px; max-width: 400px; margin: auto; box-shadow: 0 0 20px #0f0; }
-        .btn { display: block; width: 100%; padding: 20px; margin-top: 15px; background: #0f0; color: #000; text-decoration: none; font-weight: bold; border-radius: 10px; font-size: 16px; text-transform: uppercase; border: none; }
-        .status { color: #f00; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
-        h1 { letter-spacing: 5px; }
+        .box { border: 2px solid #0f0; padding: 20px; border-radius: 15px; max-width: 500px; margin: auto; box-shadow: 0 0 20px #0f0; }
+        input { width: 90%; padding: 15px; margin: 10px 0; background: #111; border: 1px solid #0f0; color: #0f0; font-family: monospace; }
+        .btn-gen { display: block; width: 100%; padding: 20px; margin-top: 15px; background: #0f0; color: #000; font-weight: bold; border-radius: 10px; cursor: pointer; text-transform: uppercase; border: none; }
+        #status { margin-top: 20px; color: #0ff; font-size: 12px; }
+        audio { margin-top: 20px; width: 100%; filter: invert(1); }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <h1>AiNiTA</h1>
-    <p>SISTEM: 6000 MILJA</p>
+    <h1>AiNiTA STUDIO</h1>
+    <p>SISTEM: 6000 MILJA (GENERATOR)</p>
     <hr style="border: 1px solid #0f0; margin: 20px 0;">
-    
-    <div class="status">HuggingFace Server: OFFLINE</div>
 
-    <a href="https://suno.com" target="_blank" class="btn">POKRENI SUNO (TRAP MAŠINA)</a>
-    
-    <a href="https://udio.com" target="_blank" class="btn" style="background: #0ff;">POKRENI UDIO (STUDIO KVALITET)</a>
+    <input type="text" id="prompt" placeholder="Unesi stil (npr. Dark Phonk, 150 BPM, 808)...">
+    <button class="btn-gen" onclick="generateMusic()">GENERISI MUZIKU</button>
 
-    <p style="font-size: 10px; margin-top: 30px; color: #444;">Arhitekta: Sistem je prebačen na stabilne servere.</p>
+    <div id="status">SISTEM SPREMAN...</div>
+    <div id="audio-container"></div>
 </div>
+
+<script>
+async function generateMusic() {
+    const prompt = document.getElementById('prompt').value;
+    const status = document.getElementById('status');
+    
+    if(!prompt) { alert("Unesi instrukcije, Arhitekte!"); return; }
+
+    status.innerText = "PROCESIRANJE... (AI RADI NA GENERISANJU)";
+    
+    // Ovde ćemo povezati tvoj HuggingFace API ključ
+    // Za sada simuliramo proces dok ne podesimo tvoj privatni token
+    setTimeout(() => {
+        status.innerText = "GREŠKA: Potreban API ključ za direktno generisanje.";
+    }, 2000);
+}
+</script>
 
 </body>
 </html>
